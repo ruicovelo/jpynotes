@@ -1,5 +1,6 @@
 from lotus.domino import *
-from lotusnotesentry import LotusNotesEntry
+from notesentry import NotesEntry
+from notesview import NotesView
 
 '''
 This only works if Lotus Notes is running and for local database files.
@@ -20,24 +21,12 @@ class LotusNotes:
         self.session = NotesFactory.createSession(None,None,None)
         self.database = self.session.getDatabase(None,mail_file_path,False)
 
-    def _entrycollection_to_list(self,collection):
-        new_list=[]
-        entry = collection.getFirstEntry()
-        while entry:
-            new_list.append(LotusNotesEntry(entry))
-            entry = collection.getNextEntry()
-        return new_list
-    
-    def _get_inbox(self):
-        return self.database.getView('($INBOX)')
 
-    def get_inbox_entries(self):
-        ''' Return a list of entries in inbox '''
-        inbox = self._get_inbox()
-        return self._entrycollection_to_list(inbox.getAllEntries())
-        
-    def get_unread_inbox_entries(self):
-        inbox = self._get_inbox()
-        return self._entrycollection_to_list(inbox.getAllUnreadEntries())
+    def get_view(self,view_name):
+        return NotesView(self.database.getView(view_name))
+    
+    def get_inbox(self):
+        return self.get_view('($INBOX)')
+
 
         

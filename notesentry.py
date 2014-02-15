@@ -1,8 +1,8 @@
 
 
-class LotusNotesEntry:
+class NotesEntry:
     '''
-    Wrapper for lotus.domino.local.ViewEntry for easier integratoin with python code
+    Wrapper for lotus.domino.local.ViewEntry for easier use with python code
     '''
 
     def __init__(self,viewentry):
@@ -13,5 +13,5 @@ class LotusNotesEntry:
             self.Body = viewentry.getDocument().getItemValue('Body')
 
     def __str__(self):
-        return self.ID
+        return self.ID + '\n' + 'From: ' + self.From + '\n' + 'Subject: ' + self.Subject
 
